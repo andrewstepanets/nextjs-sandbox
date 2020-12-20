@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>This is My First Next JS App</title>
+        <title>Page Two - Next JS App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -14,8 +14,8 @@ export default function Home() {
         <h1 className="mx-auto text-4xl font-bold">
           Welcome to Next.js
         </h1>
-        <Link href="/page-two">
-          <a className="text-red-400">Go Page Two</a>
+        <Link href="/">
+          <a>Go Home</a>
         </Link>
       </main>
 
