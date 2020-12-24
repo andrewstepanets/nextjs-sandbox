@@ -1,4 +1,5 @@
 import { Tick } from '../../icons';
+import SignupForm from './SignupForm';
 
 const outcomes = [
     'How to buid this landing page with Next.js',
@@ -41,6 +42,7 @@ const Hero = () => {
                     </ul>
                 )}
                 <CommingSoonBadge />
+                <SignupForm title="Leave your email below, to be  notified when your signup is completed" />
             </div>
         </div>
     );
