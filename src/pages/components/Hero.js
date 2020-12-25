@@ -16,9 +16,9 @@ const CommingSoonBadge = () => (
 const Hero = () => {
     return (
         <div className='border border-gray-200 md:flex md:flex-row'>
-            <div className='bg-gray-100 text-center self-center md:w-1/3'>
+            <div className='bg-gray-100 text-center flex md:w-1/3'>
                 <img
-                    className='mx-auto'
+                    className='mx-auto object-contain'
                     src='/assets/img_subscription-cover.png'
                     alt='Cover image'
                 />
