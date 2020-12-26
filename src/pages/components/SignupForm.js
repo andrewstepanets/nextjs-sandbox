@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useForm } from 'react-hook-form';
 
 const ErrorMessage = ({ message }) => (
     <p className="text-sm px-3 mt-1 text-red-500 inline-block">
@@ -12,8 +13,9 @@ const SuccessMessage = () => (
 )
 const SignupForm = ({ title }) => {
 
+    const { handleSubmit, register, errors } = useForm();
 
-    const isLoading = true;
+    const isLoading = false;
 
     const formClass = classNames({
         "flex items-center border rounded-md border-gray-300 p-1 focus-within:border-blue-500 focus-within:ring-4": true,
@@ -30,16 +32,26 @@ const SignupForm = ({ title }) => {
         "opacity-50 cursor-not-allowed": isLoading
     })
 
+    const onSubmit = data => console.log({ data })
+
     return (
         <div>
             <p className="p-1 mb-2">{title}</p>
             <SuccessMessage />
-            <form className="max-w-sm">
+            <form className="max-w-sm" onSubmit={handleSubmit(onSubmit)}>
                 <div className={formClass}>
                     <input
                         className={inputClass}
                         disabled={isLoading}
                         type="text"
+                        name="email"
+                        ref={register({
+                            required: "Email is required.",
+                            pattern: {
+                                value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                                message: "Please enter a valid email"
+                            },
+                        })}
                         placeholder="Enter Your Name"
                         aria-label="Full name"
                     />
@@ -48,7 +60,7 @@ const SignupForm = ({ title }) => {
                         {!isLoading ? "Sign Up" : "Processing"}
                     </button>
                 </div>
-                <ErrorMessage message="Please enter a valid email" />
+                {errors?.email && <ErrorMessage message={errors.email.message} />}
             </form>
         </div>
     )
