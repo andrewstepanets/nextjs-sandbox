@@ -49,7 +49,7 @@ const SignupForm = ({ title }) => {
                             required: "Email is required.",
                             pattern: {
                                 value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                                message: "Please enter a valid email"
+                                message: "Please enter a valid email."
                             },
                         })}
                         placeholder="Enter Your Name"
