@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 
 const ErrorMessage = ({ message }) => (
     <p className="text-sm px-3 mt-1 text-red-500 inline-block">
@@ -15,7 +16,19 @@ const SignupForm = ({ title }) => {
 
     const { handleSubmit, register, errors } = useForm();
 
-    const isLoading = false;
+    // const isLoading = false;
+
+    const subscribe = async ({ email }) => {
+        const res = await fetch(`api/subscribe?email=${email}`);
+        if (!res.ok) { throw "There was an error subscribing to the list" }
+    }
+
+    // useMutation to look at isLoading
+
+    const { mutate, isSuccess, isLoading, isError, error, reset } = useMutation((data) => subscribe(data)
+    );
+
+    const onSubmit = data => mutate(data)
 
     const formClass = classNames({
         "flex items-center border rounded-md border-gray-300 p-1 focus-within:border-blue-500 focus-within:ring-4": true,
@@ -32,16 +45,13 @@ const SignupForm = ({ title }) => {
         "opacity-50 cursor-not-allowed": isLoading
     })
 
-    const subscribe = async ({ email }) => {
-        const res = await fetch(`api/subscribe?email=${email}`);
+    if (isSuccess) {
+        return <SuccessMessage />
     }
-
-    const onSubmit = data => subscribe(data)
 
     return (
         <div>
             <p className="p-1 mb-2">{title}</p>
-            <SuccessMessage />
             <form className="max-w-sm" onSubmit={handleSubmit(onSubmit)}>
                 <div className={formClass}>
                     <input
@@ -65,6 +75,7 @@ const SignupForm = ({ title }) => {
                     </button>
                 </div>
                 {errors?.email && <ErrorMessage message={errors.email.message} />}
+                {isError && <ErrorMessage message={error} />}
             </form>
         </div>
     )
