@@ -1,15 +1,23 @@
 import classNames from 'classnames';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import { Cross } from '../../icons'
 
 const ErrorMessage = ({ message }) => (
     <p className="text-sm px-3 mt-1 text-red-500 inline-block">
         {message}
     </p>
 )
-const SuccessMessage = () => (
-    <p className="text-sm p-3 bg-green-100 border rounded-md border-success text-success">
-        Success! Check your inbox and confirm your email
+const SuccessMessage = ({ handleReset }) => (
+    <p className="text-sm p-3 bg-green-100 border rounded-md border-success text-success inline-flex">
+        <span>Success! Check your inbox and confirm your email</span>
+        <span className="self-center flex mr-1">
+            <button
+                onClick={() => handleReset()}
+                className="bg-success text-white rounded-full h-4 w-4 mt-auto ml-1 hover:bg-red-500 transition-colors duration-200">
+                <Cross className="h-2 w-2 mx-auto" />
+            </button>
+        </span>
     </p>
 )
 const SignupForm = ({ title }) => {
@@ -31,8 +39,9 @@ const SignupForm = ({ title }) => {
     const onSubmit = data => mutate(data)
 
     const formClass = classNames({
-        "flex items-center border rounded-md border-gray-300 p-1 focus-within:border-blue-500 focus-within:ring-4": true,
-        "bg-gray-100 border-gray-100": isLoading
+        "flex items-center border rounded-md  p-1 focus-within:border-blue-500 focus-within:ring-4": true,
+        "border-gray-300": !isLoading,
+        "bg-gray-100 border-red-200": isLoading
     })
 
     const inputClass = classNames({
@@ -46,7 +55,7 @@ const SignupForm = ({ title }) => {
     })
 
     if (isSuccess) {
-        return <SuccessMessage />
+        return <SuccessMessage handleReset={reset} />
     }
 
     return (
